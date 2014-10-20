@@ -1,0 +1,5 @@
+{
+  "name": "<%= name %>",
+  "baseAlias": "<%= baseAlias %>",
+  "uuid": "<%= uuid %>"
+}
