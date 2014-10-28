@@ -19,6 +19,25 @@ module.exports = yeoman.generators.Base.extend({
   prompting: function () {
     var done = this.async();
 
+    var prettyName = function(value) {
+      return this._.camelize(this._.slugify(this._.humanize(value)));
+    }.bind(this);
+
+    var parseAnswers = function(answers) {
+      this.name = answers.name;
+      this.baseAlias = '/' + answers.baseAlias;
+      done();
+    }.bind(this);
+
+    // When name is set in options, skip prompting
+    if (this.options.name) {
+      return parseAnswers({
+        name: this.options.name,
+        baseAlias: prettyName(this.options.name)
+      });
+    }
+
+    // Show prompt to get values from user input
     var prompts = [{
       name: 'name',
       message: 'Project name',
@@ -27,19 +46,14 @@ module.exports = yeoman.generators.Base.extend({
       name: 'baseAlias',
       message: 'Base alias',
       default: function(props) {
-        return this._.camelize(this._.slugify(this._.humanize(props.name)));
+        return prettyName(props.name);
       }.bind(this),
       validate: function(value) {
-        return value.match(/^[/\w0-9-_]+$/) !== null;
+        return value.match(/^[/\w0-9-_]+$/) !== null ? true : 'Please enter a value without whitespace and special characters';
       }
     }];
 
-    this.prompt(prompts, function (props) {
-      this.name = props.name;
-      this.baseAlias = '/' + props.baseAlias;
-
-      done();
-    }.bind(this));
+    this.prompt(prompts, parseAnswers);
   },
 
   writing: {
