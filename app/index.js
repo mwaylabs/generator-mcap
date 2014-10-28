@@ -1,6 +1,10 @@
 'use strict';
 
+var fs = require('fs');
 var path = require('path');
+var util = require('util');
+var util = require('util');
+var async = require('async');
 var yeoman = require('yeoman-generator');
 var uuid = require('node-uuid');
 
@@ -56,12 +60,34 @@ module.exports = yeoman.generators.Base.extend({
     this.prompt(prompts, parseAnswers);
   },
 
+  // TODO move this function into a separate node module
+  _getProjectFolderName: function(name, cb) {
+    var names = [name];
+    var seperator = '-';
+    var max = 100;
+    for (var i = 1; i < max; i++) {
+      names.push(util.format('%s%s%s', name, seperator, i));
+    }
+    async.mapSeries(names, fs.stat, function(err) {
+      cb(err.path);
+    });
+  },
+
   writing: {
     app: function () {
-      this.dest.mkdir('server');
-      this.dest.mkdir('client');
+      var done = this.async();
+      this._getProjectFolderName(this.name, function(projectFolder){
 
-      this.template('_mcap.json', 'mcap.json');
+        this.dest.mkdir(projectFolder);
+        process.chdir(projectFolder);
+        this.log.create(process.cwd());
+
+        this.dest.mkdir('server');
+        this.dest.mkdir('client');
+
+        this.template('_mcap.json', 'mcap.json');
+        done();
+      }.bind(this));
     },
 
     projectfiles: function () {
