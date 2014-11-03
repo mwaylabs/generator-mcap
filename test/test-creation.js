@@ -3,19 +3,21 @@
 
 var path = require('path');
 var assert = require('yeoman-generator').assert;
-var helpers = require('yeoman-generator').test;
+var helper = require('./helper');
 
 describe('mcap-project creation', function () {
 
   describe('with prompts', function () {
     beforeEach(function (done) {
-      helpers.run(path.join(__dirname, '../app'))
-        .inDir(path.resolve(__dirname, './temp'))
-        .withOptions({ 'skip-install': true })
-        .withPrompt({
-          name: 'My mCAP Project'
-        })
-        .on('end', done);
+
+      var answers = {
+        name: 'My mCAP Project'
+      };
+
+      // Creates a generateor with the default options / arguments
+      helper.createAppGenerator({
+        answers: answers
+      }, done);
     });
 
     it('creates files', function () {
@@ -43,10 +45,15 @@ describe('mcap-project creation', function () {
 
   describe('with options', function () {
     beforeEach(function (done) {
-      helpers.run(path.join(__dirname, '../app'))
-        .inDir(path.resolve(__dirname, './temp'))
-        .withOptions({ 'skip-install': true, name: 'MymCAPProjectApp' })
-        .on('end', done);
+
+      var answers = {
+        name: 'MymCAPProjectApp'
+      };
+
+      // Creates a generateor with the default options / arguments
+      helper.createAppGenerator({
+        answers: answers
+      }, done);
     });
 
     it('creates files', function () {
