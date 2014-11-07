@@ -113,5 +113,12 @@ module.exports = yeoman.generators.Base.extend({
     });
 
     this.dest.write('models/' + filename, JSON.stringify(content, null, ' '));
+  },
+
+  prepareValues: function() {
+    return {
+      name: this.name,
+      attr: this.attr
+    };
   }
 });
