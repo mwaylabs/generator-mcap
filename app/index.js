@@ -45,7 +45,9 @@ module.exports = yeoman.generators.Base.extend({
     var prompts = [{
       name: 'name',
       message: 'Project name',
-      default: this.name
+      validate: function(val) {
+        return val.length ? true : 'Please enter a project name';
+      }
     },{
       name: 'baseAlias',
       message: 'Base alias',
