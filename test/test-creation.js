@@ -27,6 +27,7 @@ describe('mcap-project creation', function () {
         '.editorconfig',
         '.gitattributes',
         '.gitignore',
+        '.mcapignore',
         '.jshintrc',
         'client',
         'server'
