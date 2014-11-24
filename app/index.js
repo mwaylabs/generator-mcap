@@ -97,6 +97,7 @@ module.exports = yeoman.generators.Base.extend({
       this.src.copy('gitattributes', '.gitattributes');
       this.src.copy('gitignore', '.gitignore');
       this.src.copy('jshintrc', '.jshintrc');
+      this.src.copy('mcapignore', '.mcapignore');
     }
   }
 });
