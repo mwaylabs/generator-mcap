@@ -24,11 +24,14 @@ describe('mcap:model', function () {
     var expectedContent = {
       name: 'Contact',
       label: 'Contact',
-      firstname: {
-        type: 'string',
-        mandatory: false,
-        key: false
-      }
+      attributes: [
+        {
+          name: 'firstname',
+          type: 'string',
+          mandatory: false,
+          key: false
+        }
+      ]
     };
 
     var answers = {
@@ -41,15 +44,14 @@ describe('mcap:model', function () {
       addOneMore: false
     };
 
-    var gen = helper.createSubGenerator('model', {answers: answers}, function() {
+    helper.createSubGenerator('model', {answers: answers}, function() {
       assert.file(expectedFiles);
-      console.log(gen.generator.prepareValues());
       helper.deepEqual('models/contact.json', expectedContent);
       done();
     });
   });
 
-  describe.only('.prepareValues()', function (done) {
+  describe('.prepareValues()', function () {
 
     beforeEach(function(done) {
       var answers = {
@@ -72,7 +74,7 @@ describe('mcap:model', function () {
     it('@return', function () {
       assert.deepEqual(this.gen.generator.prepareValues(), {
         name: 'Contact',
-        attr: [{
+        attributes: [{
           modelName: 'Contact',
           modelLabel: 'Contact',
           name: 'firstname',

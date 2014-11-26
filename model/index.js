@@ -104,12 +104,8 @@ module.exports = yeoman.generators.Base.extend({
     var content = {};
     content.name = this.name;
     content.label = this.name;
-    _.each(this.attr, function(item) {
-      content[item.name] = {
-        type: item.type,
-        mandatory: item.mandatory,
-        key: item.key,
-      };
+    content.attributes = this.attr.map(function(item) {
+      return _.omit(item, 'modelName', 'modelLabel');
     });
 
     this.dest.write('models/' + filename, JSON.stringify(content, null, ' '));
@@ -118,7 +114,7 @@ module.exports = yeoman.generators.Base.extend({
   prepareValues: function() {
     return {
       name: this.name,
-      attr: this.attr
+      attributes: this.attr
     };
   }
 });

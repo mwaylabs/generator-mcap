@@ -1,7 +1,6 @@
 /*global describe, beforeEach, it*/
 'use strict';
 
-var path = require('path');
 var assert = require('yeoman-generator').assert;
 var helper = require('./helper');
 
