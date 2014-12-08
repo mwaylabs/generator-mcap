@@ -7,12 +7,15 @@ var util = require('util');
 var async = require('async');
 var yeoman = require('yeoman-generator');
 var uuid = require('node-uuid');
+var log = require('mcap-log');
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
+    log.debug('generator-mcap is started');
     this.pkg = require('../package.json');
 
     this.uuid = uuid.v4();
+    log.debug('Create project with uuid: %s', this.uuid);
 
     this.argument('name', { type: String, required: false });
     this.name = this.name || path.basename(process.cwd());
@@ -30,6 +33,10 @@ module.exports = yeoman.generators.Base.extend({
     var parseAnswers = function(answers) {
       this.name = answers.name;
       this.baseAlias = '/' + answers.baseAlias;
+
+      log.debug('Name: %s', this.name);
+      log.debug('BaseAlias: %s', this.baseAlias);
+
       done();
     }.bind(this);
 
@@ -81,7 +88,11 @@ module.exports = yeoman.generators.Base.extend({
       this._getProjectFolderName(this.name, function(projectFolder){
 
         this.dest.mkdir(projectFolder);
+        log.debug('Create project folder: %s', projectFolder);
+
         process.chdir(projectFolder);
+        log.debug('Change directory to: %s', projectFolder);
+
         this.log.create(process.cwd());
 
         this.dest.mkdir('server');
@@ -99,5 +110,9 @@ module.exports = yeoman.generators.Base.extend({
       this.src.copy('jshintrc', '.jshintrc');
       this.src.copy('mcapignore', '.mcapignore');
     }
+  },
+
+  end: function () {
+    log.debug('generator-mcap is completed');
   }
 });
