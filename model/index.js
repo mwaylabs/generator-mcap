@@ -12,6 +12,7 @@ var validateLength = function(val) {
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.attr = [];
+    this.primaryKeyIsUndefined = true;
   },
 
   prompting: {
@@ -55,7 +56,10 @@ module.exports = yeoman.generators.Base.extend({
         type: 'confirm',
         name: 'key',
         message: 'Primary key',
-        default: false
+        default: false,
+        when: function() {
+          return this.primaryKeyIsUndefined;
+        }.bind(this)
       },
       {
         type: 'confirm',
@@ -65,6 +69,9 @@ module.exports = yeoman.generators.Base.extend({
       }];
 
       this.prompt(prompt, function(answers) {
+        if (answers.key === true) {
+          this.primaryKeyIsUndefined = false;
+        }
         this.attr.push( _.omit(answers, 'addOneMore') );
         if (answers.addOneMore) {
           return this.prompting.askAttributes.call(this);
