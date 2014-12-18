@@ -4,8 +4,39 @@ var _ = require('lodash');
 var chalk = require('chalk');
 var yeoman = require('yeoman-generator');
 var stringifyObject = require('stringify-object');
-
-var validateLength = function(val) {
+var types = [
+  'Map',
+  'String',
+  'String Array',
+  'Character',
+  'Character Array',
+  'Byte',
+  'Byte Array',
+  'Short',
+  'Short Array',
+  'Integer',
+  'Integer Array',
+  'Long',
+  'Long Array',
+  'BigInteger',
+  'BigInteger Array',
+  'BigDecimal',
+  'BigDecimal Array',
+  'Double',
+  'Double Array',
+  'Float',
+  'Float Array',
+  'Boolean',
+  'Boolean Array',
+  'File',
+  'File Array',
+  'Date',
+  'Date Array',
+  'Object',
+  'Object Array',
+  'Binary Data'
+];
+var validateLength = function (val) {
   return !!val.length;
 };
 
@@ -26,7 +57,7 @@ module.exports = yeoman.generators.Base.extend({
         validate: validateLength
       }];
 
-      this.prompt(prompt, function(answers) {
+      this.prompt(prompt, function (answers) {
         this.name = answers.modelName;
         this.label = answers.modelLabel;
         done();
@@ -42,37 +73,37 @@ module.exports = yeoman.generators.Base.extend({
         name: 'name',
         message: 'Name',
         validate: validateLength
-      },{
+      }, {
         type: 'list',
         name: 'type',
         message: 'Type',
-        choices: ['string', 'int', 'number', 'boolean']
-      },{
+        choices: types
+      }, {
         type: 'confirm',
         name: 'mandatory',
         message: 'Is mandatory',
         default: true
-      },{
+      }, {
         type: 'confirm',
         name: 'key',
         message: 'Primary key',
         default: false,
-        when: function() {
+        when: function () {
           return this.primaryKeyIsUndefined;
         }.bind(this)
       },
-      {
-        type: 'confirm',
-        name: 'addOneMore',
-        message: 'Do you want to add another attribute',
-        default: true
-      }];
+        {
+          type: 'confirm',
+          name: 'addOneMore',
+          message: 'Do you want to add another attribute',
+          default: true
+        }];
 
-      this.prompt(prompt, function(answers) {
+      this.prompt(prompt, function (answers) {
         if (answers.key === true) {
           this.primaryKeyIsUndefined = false;
         }
-        this.attr.push( _.omit(answers, 'addOneMore') );
+        this.attr.push(_.omit(answers, 'addOneMore'));
         if (answers.addOneMore) {
           return this.prompting.askAttributes.call(this);
         }
@@ -94,7 +125,7 @@ module.exports = yeoman.generators.Base.extend({
       console.log('Name: ' + this.name);
       console.log('Attributes: ' + stringifyObject(this.attr, {indent: '  '}));
 
-      this.prompt(prompt, function(answers) {
+      this.prompt(prompt, function (answers) {
         if (!answers.createFile) {
           process.exit(1);
         }
@@ -111,14 +142,14 @@ module.exports = yeoman.generators.Base.extend({
     var content = {};
     content.name = this.name;
     content.label = this.name;
-    content.attributes = this.attr.map(function(item) {
+    content.attributes = this.attr.map(function (item) {
       return _.omit(item, 'modelName', 'modelLabel');
     });
 
     this.dest.write('models/' + filename, JSON.stringify(content, null, ' '));
   },
 
-  prepareValues: function() {
+  prepareValues: function () {
     return {
       name: this.name,
       attributes: this.attr
