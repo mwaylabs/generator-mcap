@@ -27,7 +27,7 @@ module.exports = yeoman.generators.Base.extend({
       message: 'Descriptor URL',
       validate: validateURL
     }, {
-      name: 'userName',
+      name: 'username',
       message: 'Username',
       validate: validateLength
     }, {
@@ -53,7 +53,7 @@ module.exports = yeoman.generators.Base.extend({
       type: 'rest',
       properties: {
         descriptorUrl: this.answers.descriptorUrl,
-        userName: this.answers.userName,
+        username: this.answers.username,
         password: this.answers.password
       }
     };

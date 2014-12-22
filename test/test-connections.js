@@ -27,7 +27,7 @@ describe('mcap:connections', function () {
       type: 'rest',
       properties: {
         descriptorUrl: 'http://sap.mway.io',
-        userName: 'admin',
+        username: 'admin',
         password: 'root'
       }
     };
@@ -35,7 +35,7 @@ describe('mcap:connections', function () {
       name: 'SAP',
       description: 'SAP API',
       descriptorUrl: 'http://sap.mway.io',
-      userName: 'admin',
+      username: 'admin',
       password: 'root'
     };
 
