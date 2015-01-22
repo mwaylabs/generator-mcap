@@ -1,5 +1,8 @@
 {
   "name": "<%= name %>",
   "baseAlias": "<%= baseAlias %>",
-  "uuid": "<%= uuid %>"
+  "uuid": "<%= uuid %>",
+  "client": "<%= clientDocument %>",
+  "server": "<%= serverDocument %>",
+  "directoryIndex": "<%= directoryIndex %>"
 }
