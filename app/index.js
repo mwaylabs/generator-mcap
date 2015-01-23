@@ -33,8 +33,8 @@ module.exports = yeoman.generators.Base.extend({
     }.bind(this);
 
     var parseAnswers = function (answers) {
-      this.name = answers.name;
-      this.baseAlias = '/' + answers.baseAlias;
+      this.name = answers.name.trim();
+      this.baseAlias = '/' + answers.baseAlias.trim();
       this.clientDocument = answers.clientDocument;
       this.serverDocument = answers.serverDocument;
       this.directoryIndex = answers.directoryIndex;
@@ -61,7 +61,7 @@ module.exports = yeoman.generators.Base.extend({
         name: 'name',
         message: 'Project name',
         validate: function (val) {
-          return val.length ? true : 'Please enter a project name';
+          return val.match(/^[a-zA-Z0-9]*$/) !== null ? true : 'Please enter a project name only a-zA-Z0-9 no whitespace';
         }
       }, {
         name: 'baseAlias',
@@ -90,19 +90,18 @@ module.exports = yeoman.generators.Base.extend({
           }
         },
         {
-          type: 'checkbox',
+          type: 'list',
           name: 'directoryIndex',
           message: 'DirectoryIndex on/off',
+          default: false,
           choices: [
             {
-              value: 'true',
-              name: 'yes',
-              checked: false
+              value: false,
+              name: 'no'
             },
             {
-              value: 'false',
-              name: 'no',
-              checked: true
+              value: true,
+              name: 'yes'
             }
           ]
         }

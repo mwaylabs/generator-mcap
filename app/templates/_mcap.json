@@ -4,5 +4,5 @@
   "uuid": "<%= uuid %>",
   "client": "<%= clientDocument %>",
   "server": "<%= serverDocument %>",
-  "directoryIndex": "<%= directoryIndex %>"
+  "directoryIndex": <% if (directoryIndex) { %>true<% } %><% if (!directoryIndex) { %>false<% } %>
 }
