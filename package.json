@@ -1,6 +1,6 @@
 {
   "name": "generator-mcap",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "",
   "license": "MIT",
   "main": "app/index.js",
