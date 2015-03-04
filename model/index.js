@@ -47,23 +47,22 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   prompting: {
-
     model: function () {
       var done = this.async();
-
       var prompt = [{
         name: 'modelName',
         message: 'Name',
         validate: validateLength
-      }, {
-        name: 'modelDescription',
-        message: 'Description'
-	  }];
+      },
+        {
+          name: 'modelDescription',
+          message: 'Description'
+        }];
 
       this.prompt(prompt, function (answers) {
         this.name = answers.modelName;
         this.label = answers.modelLabel;
-		this.description = answers.modelDescription;
+        this.description = answers.modelDescription;
         done();
       }.bind(this));
     },
@@ -82,6 +81,9 @@ module.exports = yeoman.generators.Base.extend({
         name: 'type',
         message: 'Type',
         choices: types
+      }, {
+        name: 'description',
+        message: 'Description'
       }, {
         type: 'confirm',
         name: 'mandatory',
@@ -146,7 +148,7 @@ module.exports = yeoman.generators.Base.extend({
     var content = {};
     content.name = this.name;
     content.label = this.name;
-	content.description = this.description;
+    content.description = this.description;
     content.attributes = this.attr.map(function (item) {
       return _.omit(item, 'modelName', 'modelLabel', 'modelDescription');
     });
@@ -157,7 +159,7 @@ module.exports = yeoman.generators.Base.extend({
   prepareValues: function () {
     return {
       name: this.name,
-	  description: this.description,
+      description: this.description,
       attributes: this.attr
     };
   }
