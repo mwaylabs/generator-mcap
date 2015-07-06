@@ -138,6 +138,13 @@ module.exports = yeoman.generators.Base.extend({
         this.dest.mkdir('client');
 
         this.template('_mcap.json', 'mcap.json');
+        this.template('_mcap.json','env/env-prod.json');
+        this.template('_mcap.json', 'env/env-dev.json');
+        this.dest.mkdir('env/assets');
+        this.dest.mkdir('env/assets/dev');
+        this.dest.mkdir('env/assets/prod');
+        this.template('_gitkeep', 'env/assets/dev/.gitkeep');
+        this.template('_gitkeep', 'env/assets/prod/.gitkeep');
         done();
       }.bind(this));
     },
